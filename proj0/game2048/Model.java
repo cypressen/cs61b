@@ -279,6 +279,9 @@ public class Model extends Observable {
 
     public static boolean exist(Board b, int x, int y) {
         if (x >= 0 && x < b.size() && y >= 0 && y < b.size()) {
+            if(b.tile(x,y)==null){
+                return false;
+            }
             return true;
         }
         return false;
