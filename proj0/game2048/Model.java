@@ -145,20 +145,21 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
         board.setViewingPerspective(side);
-        boolean[][] mergetab =new boolean[board.size()][board.size()];
-        for (int j = 2; j >= 0; j--) {
-            for (int i = 0; i < board.size(); i++) {
-                if (board.tile(i, j) == null) {
+        for(int i = 0 ; i<board.size();i++){
+            boolean[] checkMergeTab=new boolean[board.size()];
+            for (int j = board.size()-1;j>=0;j--){
+                Tile myTile = board.tile(i,j);
+                if(myTile == null){
                     continue;
                 }
-                Tile myTile = board.tile(i, j);
-                int d = moveDistance(i, j,mergetab);
-                if (d != 0) {
-                    if(board.move(i, j + d, myTile)){
-                        score += myTile.value()*2;
-                        mergetab[i][j+d]=true;
-                    }
+                int d = moveDistance(i,j,checkMergeTab);
+                if(d!=0){
+                    if(board.move(i,j+d,myTile)){
+                        score+= myTile.value()*2;
+                        checkMergeTab[j+d]=true;
+                    };
                     changed = true;
+
                 }
             }
         }
@@ -170,12 +171,12 @@ public class Model extends Observable {
         return changed;
     }
 
-    public int moveDistance(int c, int r,boolean tab[][]) {
+    public int moveDistance(int c, int r,boolean tab[]) {
         int distance = 0;
         for (int i = r + 1; i <= 3; i++) {
             if (board.tile(c, i) == null) {
                 distance++;
-            } else if (!tab[c][i]&&board.tile(c, i).value() == board.tile(c, r).value()) {
+            } else if (!tab[i]&&board.tile(c, i).value() == board.tile(c, r).value()) {
                 distance++;
                 break;
             } else {
@@ -249,7 +250,8 @@ public class Model extends Observable {
                 if (b.tile(i, j) == null) {
                     return true;
                 }
-                if (hasSameNeighbor(b, i, j)) {
+                int[][] neighbors={{i+1,j},{i-1,j},{i,j+1},{i,j-1}};
+                if (hasSameNeighbor(b, neighbors,i,j)) {
                     return true;
                 }
             }
@@ -257,22 +259,13 @@ public class Model extends Observable {
         return false;
     }
 
-    public static boolean hasSameNeighbor(Board b, int x, int y) {
-        if (b.tile(x, y) == null) {
-            return false;
-        }
-        int val = b.tile(x, y).value();
-        if (exist(b, x - 1, y)) {
-            if (b.tile(x - 1, y).value() == val) return true;
-        }
-        if (exist(b, x + 1, y)) {
-            if (b.tile(x + 1, y).value() == val) return true;
-        }
-        if (exist(b, x, y + 1)) {
-            if (b.tile(x, y + 1).value() == val) return true;
-        }
-        if (exist(b, x, y - 1)) {
-            if (b.tile(x, y - 1).value() == val) return true;
+    public static boolean hasSameNeighbor(Board b, int neighbors[][],int i,int j) {
+        for(int[] pair: neighbors){
+            if(exist(b,pair[0],pair[1])){
+                if(b.tile(pair[0],pair[1]).value()==b.tile(i,j).value()){
+                    return true;
+                }
+            }
         }
         return false;
     }
