@@ -59,6 +59,7 @@ public class ArrayDeque<T> implements Deque<T> {
         T getRemove = arrs[headIndex];
         arrs[headIndex] = null;
         headIndex = ezLoop(headIndex + 1);
+        size-=1;
         return getRemove;
     }
 
@@ -67,6 +68,7 @@ public class ArrayDeque<T> implements Deque<T> {
         T getRemove = arrs[tailIndex];
         arrs[tailIndex] = null;
         tailIndex = ezLoop(tailIndex - 1);
+        size-=1;
         return getRemove;
     }
 
