@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ArrTes {
+public class ArrayDequeTest {
     @Test
     public void basicTest() {
         ArrayDeque<Integer> myArr = new ArrayDeque<>();
