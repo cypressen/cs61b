@@ -31,7 +31,7 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public void addFirst(T item) {
-        if (!isEmpty()&&ezLoop(headIndex - 1) == tailIndex) {
+        if (!isEmpty() && ezLoop(headIndex - 1) == tailIndex) {
             // resize //
         }
         headIndex = ezLoop(headIndex - 1);
@@ -41,7 +41,7 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public void addLast(T item) {
-        if (!isEmpty()&&ezLoop(tailIndex + 1) == headIndex) {
+        if (!isEmpty() && ezLoop(tailIndex + 1) == headIndex) {
             // resize //
         }
         tailIndex = ezLoop(tailIndex + 1);
@@ -59,7 +59,7 @@ public class ArrayDeque<T> implements Deque<T> {
         T getRemove = arrs[headIndex];
         arrs[headIndex] = null;
         headIndex = ezLoop(headIndex + 1);
-        size-=1;
+        size -= 1;
         return getRemove;
     }
 
@@ -68,7 +68,7 @@ public class ArrayDeque<T> implements Deque<T> {
         T getRemove = arrs[tailIndex];
         arrs[tailIndex] = null;
         tailIndex = ezLoop(tailIndex - 1);
-        size-=1;
+        size -= 1;
         return getRemove;
     }
 
