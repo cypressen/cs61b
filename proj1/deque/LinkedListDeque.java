@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 public class LinkedListDeque<T> implements Deque<T> {
     // 内部类
-    private class Node<T> {
+    private static class Node<T> {
         private T item;
         private Node<T> preNode;
         private Node<T> nextNode;
@@ -24,7 +24,7 @@ public class LinkedListDeque<T> implements Deque<T> {
     }
 
     private int size;
-    private Node<T> sentinel;
+    private final Node<T> sentinel;
 
     public LinkedListDeque() {
         sentinel = new Node<>();

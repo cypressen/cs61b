@@ -26,11 +26,19 @@ public class ArrayDeque<T> implements Deque<T> {
         }
         return index % arrs.length;
     }
-
+    private void resize(int cap){
+        T[] newArrs =(T[]) new Object[cap];
+        for(int i = 0 ;i < size;i+=1){
+            newArrs[i] = get(i);
+        }
+        headIndex = 0;
+        tailIndex = size-1;
+        arrs = newArrs;
+    }
     @Override
     public void addFirst(T item) {
         if (!isEmpty() && ezLoop(headIndex - 1) == tailIndex) {
-            // resize //
+            resize(arrs.length*2);
         }
         headIndex = ezLoop(headIndex - 1);
         arrs[headIndex] = item;
@@ -40,7 +48,7 @@ public class ArrayDeque<T> implements Deque<T> {
     @Override
     public void addLast(T item) {
         if (!isEmpty() && ezLoop(tailIndex + 1) == headIndex) {
-            // resize //
+            resize(arrs.length*2);
         }
         tailIndex = ezLoop(tailIndex + 1);
         arrs[tailIndex] = item;
@@ -80,5 +88,28 @@ public class ArrayDeque<T> implements Deque<T> {
     public T get(int index) {
         int targetIndex = ezLoop(headIndex + index);
         return arrs[targetIndex];
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof ArrayDeque)) {
+            return false;
+        }
+        ArrayDeque<?> ad = (ArrayDeque<?>) o;
+        if (ad.size() != size) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (ad.get(i) != get(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

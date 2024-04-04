@@ -17,11 +17,9 @@ public interface Deque<T> {
 
 
     public boolean equals(Object o);
+
     default public boolean isEmpty() {
-        if (size() == 0) {
-            return true;
-        }
-        return false;
+        return size() == 0;
     }
 
     default public void printDeque() {
