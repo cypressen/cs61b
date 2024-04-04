@@ -1,143 +1,153 @@
 package deque;
-import java.util.Iterator;
-public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
 
-    private T[] arrs;
+import java.util.Iterator;
+
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
+    private int length;
     private int size;
-    private int headIndex;
-    private int tailIndex;
+    private int first;
+    private int last;
+    private T[] arr;
 
     public ArrayDeque() {
-        arrs = (T[]) new Object[8];
-        size = 0;
-        headIndex = 1;
-        tailIndex = 0;
-    }
-    public ArrayDeque(T item) {
-        arrs = (T[]) new Object[8];
-        arrs[3] = item;
-        size = 1;
-        headIndex = 3;
-        tailIndex = 3;
-    }
-    private double getRate() {
-        return (double) size / (double) arrs.length;
+        this.arr = (T[]) new Object[8];
+        this.size = 8;
+        this.length = 0;
+        this.first = 0;
+        this.last = 0;
     }
 
-    private int ezLoop(int index) {
-        if (index == -1) {
-            return arrs.length - 1;
-        } else if (index == arrs.length) {
-            return 0;
-        }
-        return index % arrs.length;
-    }
-    private void resize(int cap){
-        T[] newArrs =(T[]) new Object[cap];
-        for(int i = 0 ;i < size;i+=1){
-            newArrs[i] = get(i);
-        }
-        headIndex = 0;
-        tailIndex = size-1;
-        arrs = newArrs;
-    }
     @Override
     public void addFirst(T item) {
-        if (!isEmpty() && ezLoop(headIndex - 1) == tailIndex) {
-            resize(arrs.length*2);
+        if (this.length == this.size - 1) {
+            reSize(this.size * 2);
         }
-        headIndex = ezLoop(headIndex - 1);
-        arrs[headIndex] = item;
-        size += 1;
+        if (!isEmpty()) {
+            this.first = (this.first - 1 + this.size) % this.size;
+        }
+        this.arr[first] = item;
+        this.length++;
     }
 
     @Override
     public void addLast(T item) {
-        if (!isEmpty() && ezLoop(tailIndex + 1) == headIndex) {
-            resize(arrs.length*2);
+        if (this.length == this.size - 1) {
+            reSize(this.size * 2);
         }
-        tailIndex = ezLoop(tailIndex + 1);
-        arrs[tailIndex] = item;
-        size += 1;
+        if (!isEmpty()) {
+            this.last = (this.last + 1) % this.size;
+        }
+        this.arr[this.last] = item;
+        this.length++;
     }
 
     @Override
     public int size() {
-        return size;
+        return this.length;
+    }
+
+    @Override
+    public void printDeque() {
+        int i = this.first;
+        while (i != this.last) {
+            System.out.print(this.arr[i] + " ");
+            i = (i + 1) % this.size;
+        }
+        System.out.println(this.arr[i]);
     }
 
     @Override
     public T removeFirst() {
-        if(isEmpty()){
+        if (isEmpty()) {
             return null;
         }
-        T getRemove = arrs[headIndex];
-        arrs[headIndex] = null;
-        headIndex = ezLoop(headIndex + 1);
-        size -= 1;
-        return getRemove;
+        this.length--;
+        T ret = this.arr[this.first];
+        this.first = (this.first + 1) % this.size;
+        if (this.length * 4 < this.size) {
+            reSize(this.size / 2);
+        }
+        return ret;
     }
 
     @Override
     public T removeLast() {
-        if(isEmpty()){
+        if (isEmpty()) {
             return null;
         }
-        T getRemove = arrs[tailIndex];
-        arrs[tailIndex] = null;
-        tailIndex = ezLoop(tailIndex - 1);
-        size -= 1;
-        return getRemove;
+        this.length--;
+        T ret = this.arr[this.last];
+        this.last = (this.last - 1 + this.size) % this.size;
+        if (this.length * 4 < this.size) {
+            reSize(this.size / 2);
+        }
+        return ret;
     }
 
     @Override
     public T get(int index) {
-        int targetIndex = ezLoop(headIndex + index);
-        return arrs[targetIndex];
+        if (index < 0 || index >= this.length) {
+            return null;
+        }
+        int position = (index + this.first) % this.size;
+        return this.arr[position];
+    }
+
+    private void reSize(int s) {
+        T[] temp = (T[]) new Object[s];
+        int i = this.first;
+        int j = 0;
+        while (j < this.length) {
+            temp[j] = this.arr[i];
+            i = (i + 1) % this.size;
+            j++;
+        }
+        this.size = s;
+        this.first = 0;
+        if (isEmpty()) {
+            this.last = 0;
+        } else {
+            this.last = j - 1;
+        }
+        this.arr = temp;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
+        if (!(o instanceof Deque) || ((Deque<?>) o).size() != this.size()) {
             return false;
         }
         if (o == this) {
             return true;
         }
-        if (!(o instanceof ArrayDeque)) {
-            return false;
-        }
-        ArrayDeque<?> ad = (ArrayDeque<?>) o;
-        if (ad.size() != size) {
-            return false;
-        }
-        for (int i = 0; i < size; i++) {
-            if (ad.get(i) != get(i)) {
+        for (int i = 0; i < this.size(); i++) {
+            Object item = ((Deque<?>) o).get(i);
+            if (!(this.get(i).equals(item))) {
                 return false;
             }
         }
         return true;
     }
 
-    // not my code, I haven't learnt this yet.
     public Iterator<T> iterator() {
-        return new ArrayDequeIterator();
+        return new Iterable();
     }
-    private class ArrayDequeIterator implements Iterator<T> {
-        private int wizPos;
 
-        private ArrayDequeIterator() {
-            wizPos = 0;
+    private class Iterable implements Iterator<T> {
+        private int pos;
+
+        Iterable() {
+            this.pos = 0;
         }
 
         public boolean hasNext() {
-            return wizPos < size;
+            return this.pos < length;
         }
 
         public T next() {
-            T item = get(wizPos);
-            wizPos += 1;
-            return item;
+            T ret = get(this.pos);
+            this.pos++;
+            return ret;
         }
     }
 }
