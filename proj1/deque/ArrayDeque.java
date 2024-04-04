@@ -1,7 +1,5 @@
 package deque;
 
-import net.sf.saxon.tree.iter.PrependSequenceIterator;
-
 public class ArrayDeque<T> implements Deque<T> {
 
     private T[] arrs;
