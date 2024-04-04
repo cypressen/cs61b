@@ -1,6 +1,6 @@
 package deque;
-
-public class ArrayDeque<T> implements Deque<T> {
+import java.util.Iterator;
+public class ArrayDeque<T> implements Deque<T>,Iterable<T> {
 
     private T[] arrs;
     private int size;
@@ -13,7 +13,13 @@ public class ArrayDeque<T> implements Deque<T> {
         headIndex = 1;
         tailIndex = 0;
     }
-
+    public ArrayDeque(T item) {
+        arrs = (T[]) new Object[8];
+        arrs[3] = item;
+        size = 1;
+        headIndex = 3;
+        tailIndex = 3;
+    }
     private double getRate() {
         return (double) size / (double) arrs.length;
     }
@@ -111,5 +117,27 @@ public class ArrayDeque<T> implements Deque<T> {
             }
         }
         return true;
+    }
+
+    // not my code, I haven't learnt this yet.
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int wizPos;
+
+        private ArrayDequeIterator() {
+            wizPos = 0;
+        }
+
+        public boolean hasNext() {
+            return wizPos < size;
+        }
+
+        public T next() {
+            T item = get(wizPos);
+            wizPos += 1;
+            return item;
+        }
     }
 }

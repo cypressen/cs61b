@@ -3,10 +3,9 @@ package deque;
 // 1. ListNode引用的更好方式 -> 无 选择内部类
 // 2. sentinel到底如何使用来化解特殊情况
 
-import javax.management.ListenerNotFoundException;
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T> {
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T>{
     // 内部类
     private static class Node<T> {
         private T item;
@@ -31,6 +30,13 @@ public class LinkedListDeque<T> implements Deque<T> {
         sentinel.nextNode = sentinel;
         sentinel.preNode = sentinel;
         size = 0;
+    }
+    public LinkedListDeque(T it) {
+        sentinel = new Node<>();
+        sentinel.nextNode = sentinel;
+        sentinel.preNode = sentinel;
+        size = 0;
+        addFirst(it);
     }
 
     @Override
@@ -115,5 +121,48 @@ public class LinkedListDeque<T> implements Deque<T> {
             it = it.nextNode;
         }
         System.out.println();
+    }
+
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof LinkedListDeque)) {
+            return false;
+        }
+        LinkedListDeque<?> lld = (LinkedListDeque<?>) o;
+        if (lld.size() != size) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (lld.get(i) != get(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    // not my code, I haven't learnt this yet.
+    public Iterator<T> iterator() {
+        return new LinkedListDequeIterator();
+    }
+    private class LinkedListDequeIterator implements Iterator<T> {
+        private Node<T> p;
+
+        LinkedListDequeIterator() {
+            p = sentinel.nextNode;
+        }
+
+        public boolean hasNext() {
+            return p == sentinel;
+        }
+
+        public T next() {
+            T item = p.item;
+            p = p.nextNode;
+            return item;
+        }
     }
 }
