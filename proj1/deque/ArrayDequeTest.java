@@ -12,6 +12,9 @@ public class ArrayDequeTest {
          arr.addFirst(i);
         }
         arr.printDeque();
+        for (int i = 0; i < 10; i += 1) {
+            arr.removeFirst();
+        }
         System.out.println(arr.size());
     }
 }

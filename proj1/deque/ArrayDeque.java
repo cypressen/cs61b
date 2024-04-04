@@ -54,6 +54,9 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public T removeFirst() {
+        if(isEmpty()){
+            return null;
+        }
         T getRemove = arrs[headIndex];
         arrs[headIndex] = null;
         headIndex = ezLoop(headIndex + 1);
@@ -63,6 +66,9 @@ public class ArrayDeque<T> implements Deque<T> {
 
     @Override
     public T removeLast() {
+        if(isEmpty()){
+            return null;
+        }
         T getRemove = arrs[tailIndex];
         arrs[tailIndex] = null;
         tailIndex = ezLoop(tailIndex - 1);
