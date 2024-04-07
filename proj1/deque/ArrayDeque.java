@@ -16,13 +16,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         tailIndex = 0;
     }
 
-    public ArrayDeque(T item) {
-        arrs = (T[]) new Object[8];
-        arrs[3] = item;
-        size = 1;
-        headIndex = 3;
-        tailIndex = 3;
-    }
 
     private double getRate() {
         return (double) size / (double) arrs.length;
@@ -39,7 +32,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private void resize(int cap) {
         T[] newArrs = (T[]) new Object[cap];
-        for (int i = 0; i < size; i += 1) {
+        for (int i = 0; i < size ; i += 1) {
             newArrs[i] = get(i);
         }
         headIndex = 0;
@@ -81,6 +74,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         arrs[headIndex] = null;
         headIndex = ezLoop(headIndex + 1);
         size -= 1;
+        if (this.arrs.length * 4 < this.size) {
+            resize(this.size / 2);
+        }
         return getRemove;
     }
 
@@ -93,6 +89,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         arrs[tailIndex] = null;
         tailIndex = ezLoop(tailIndex - 1);
         size -= 1;
+        if (this.arrs.length * 4 < this.size) {
+            resize(this.size / 2);
+        }
         return getRemove;
     }
 
@@ -104,21 +103,15 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) {
+        if (!(o instanceof Deque) || ((Deque<?>) o).size() != this.size()) {
             return false;
         }
         if (o == this) {
             return true;
         }
-        if (!(o instanceof ArrayDeque)) {
-            return false;
-        }
-        ArrayDeque<?> ad = (ArrayDeque<?>) o;
-        if (ad.size() != size) {
-            return false;
-        }
-        for (int i = 0; i < size; i++) {
-            if (ad.get(i) != get(i)) {
+        for (int i = 0; i < this.size(); i++) {
+            Object item = ((Deque<?>) o).get(i);
+            if (!(this.get(i).equals(item))) {
                 return false;
             }
         }
