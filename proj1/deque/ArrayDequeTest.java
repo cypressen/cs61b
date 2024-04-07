@@ -74,16 +74,5 @@ public class ArrayDequeTest {
         assertEquals(solution.removeFirst(), student.removeFirst());
     }
 
-    @Test
-    public void testSizeRemoval() {
-        ArrayDeque<Integer> testAD = new ArrayDeque<>();
-        for (int i = 0; i < 100; i += 1) {
-            testAD.addFirst(i);
-        }
-        testAD.rate();
-        for (int i = 0; i < 99; i += 1) {
-            testAD.removeLast();
-        }
-        testAD.rate();
-    }
+
 }

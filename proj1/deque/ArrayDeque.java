@@ -71,7 +71,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         headIndex = ezLoop(headIndex + 1);
         size -= 1;
 
-        if (size * 4 < arrs.length) {
+        if (size != 0 && size * 4 < arrs.length) {
             resize(arrs.length / 2);
         }
 
@@ -88,7 +88,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         tailIndex = ezLoop(tailIndex - 1);
         size -= 1;
 
-        if (size * 4 < arrs.length) {
+        if (size != 0 && size * 4 < arrs.length) {
             resize(arrs.length / 2);
         }
 
@@ -124,12 +124,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             System.out.print(get(i) + " ");
         }
         System.out.println();
+    }
 
-    }
-    public void rate(){
-        System.out.println( (double )size / (double)arrs.length);
-    }
-    // not my code, I haven't learnt this yet.
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
