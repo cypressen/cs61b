@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayDeque;
-
 public class ArrayDequeTest {
     @Test
     public void testRandom() {
@@ -74,5 +72,18 @@ public class ArrayDequeTest {
         student.addLast(7);
         student.addLast(8);
         assertEquals(solution.removeFirst(), student.removeFirst());
+    }
+
+    @Test
+    public void testSizeRemoval() {
+        ArrayDeque<Integer> testAD = new ArrayDeque<>();
+        for (int i = 0; i < 100; i += 1) {
+            testAD.addFirst(i);
+        }
+        testAD.rate();
+        for (int i = 0; i < 99; i += 1) {
+            testAD.removeLast();
+        }
+        testAD.rate();
     }
 }

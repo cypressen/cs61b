@@ -16,11 +16,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         tailIndex = 0;
     }
 
-
-    private double getRate() {
-        return (double) size / (double) arrs.length;
-    }
-
     private int ezLoop(int index) {
         if (index == -1) {
             return arrs.length - 1;
@@ -32,7 +27,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private void resize(int cap) {
         T[] newArrs = (T[]) new Object[cap];
-        for (int i = 0; i < size ; i += 1) {
+        for (int i = 0; i < size; i += 1) {
             newArrs[i] = get(i);
         }
         headIndex = 0;
@@ -60,6 +55,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size += 1;
     }
 
+
     @Override
     public int size() {
         return size;
@@ -74,9 +70,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         arrs[headIndex] = null;
         headIndex = ezLoop(headIndex + 1);
         size -= 1;
-        if (this.arrs.length * 4 < this.size) {
-            resize(this.size / 2);
+
+        if (size * 4 < arrs.length) {
+            resize(arrs.length / 2);
         }
+
         return getRemove;
     }
 
@@ -89,9 +87,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         arrs[tailIndex] = null;
         tailIndex = ezLoop(tailIndex - 1);
         size -= 1;
-        if (this.arrs.length * 4 < this.size) {
-            resize(this.size / 2);
+
+        if (size * 4 < arrs.length) {
+            resize(arrs.length / 2);
         }
+
         return getRemove;
     }
 
@@ -124,8 +124,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             System.out.print(get(i) + " ");
         }
         System.out.println();
-    }
 
+    }
+    public void rate(){
+        System.out.println( (double )size / (double)arrs.length);
+    }
     // not my code, I haven't learnt this yet.
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();

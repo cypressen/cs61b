@@ -1,6 +1,5 @@
 package deque;
 
-import java.util.Iterator;
 
 public interface Deque<T> {
     void addFirst(T item);
@@ -18,9 +17,9 @@ public interface Deque<T> {
 
     boolean equals(Object o);
 
+    void printDeque();
+
     default boolean isEmpty() {
         return size() == 0;
     }
-
-     void printDeque();
 }
