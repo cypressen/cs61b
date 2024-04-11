@@ -74,5 +74,17 @@ public class ArrayDequeTest {
         assertEquals(solution.removeFirst(), student.removeFirst());
     }
 
-
+    @Test
+    public void nullTest() {
+        ArrayDeque<Integer> testAD = new ArrayDeque<>();
+        int N = 100000;
+        for (int i = 0; i < N; i += 1) {
+            int aim = StdRandom.uniform(0, 2);
+            if (aim == 0) {
+                testAD.addFirst(i);
+            } else {
+                testAD.removeFirst();
+            }
+        }
+    }
 }
