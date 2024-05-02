@@ -1,10 +1,6 @@
 package capers;
 
-import javax.crypto.DecapsulateException;
-import java.io.File;
-import java.util.Arrays;
-
-import static capers.Utils.*;
+import static capers.Utils.exitWithError;
 
 /** Canine Capers: A Gitlet Prelude.
  * @author TODO
