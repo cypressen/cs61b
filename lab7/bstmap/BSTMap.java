@@ -19,7 +19,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         System.out.println(toOrderedList());
     }
 
-    public List<K> toOrderedList() {
+    private List<K> toOrderedList() {
         List<K> list = new ArrayList<>();
         toOrdered(root, list);
         return list;
@@ -60,7 +60,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         return null;
     }
 
-    public BSTNode getNode(K key) {
+    private BSTNode getNode(K key) {
         BSTNode cur = root;
         while (cur != null) {
             int judge = key.compareTo(cur.key);
