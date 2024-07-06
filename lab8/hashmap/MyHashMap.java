@@ -46,7 +46,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     }
 
     private double getLoadFactor() {
-        return (double) N / M;
+        return (double) N / buckets.length;
     }
 
     private void putHelper(K key, V value, Collection<Node>[] buckets) {
@@ -86,7 +86,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     public void put(K key, V value) {
         // check maxLoadFactor
         //...//
-        if (getLoadFactor() < maxLoadFactor) {
+        if (getLoadFactor()> maxLoadFactor) {
             resize();
         }
 
@@ -142,7 +142,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
 
     /* Instance Variables */
     private Collection<Node>[] buckets;
-    Set<K> keyset = new HashSet<>();
+    private Set<K> keyset = new HashSet<>();
     private double maxLoadFactor = 0.75;
     private int M;
     private int N;
